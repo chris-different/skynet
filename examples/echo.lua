@@ -8,14 +8,15 @@ function command.HELLO(what)
     return "i am echo server, get this:" .. what
 end
 
+function command.iprint(what)
+    return "i am iprint server " .. tostring(what)
+end
+
 function dispatcher()
     skynet.dispatch("lua", function(session, address, cmd, ...)
-        cmd = cmd:upper()
-        if cmd == "HELLO" then
-            local f = command[cmd]
-            assert(f)
-            skynet.ret(skynet.pack(f(...)))
-        end
+        local f = command[cmd]
+        assert(f)
+        skynet.ret(skynet.pack(f(...)))
     end)
     skynet.register("echo")
 end
